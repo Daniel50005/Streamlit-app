@@ -4,8 +4,8 @@
 import streamlit as st
 
 import pandas as pd 
-#import plotly.offline as pyo
-#import plotly.graph_objs as go
+import plotly.offline as pyo
+import plotly.graph_objs as go
 
 
 from sklearn.utils import estimator_html_repr
