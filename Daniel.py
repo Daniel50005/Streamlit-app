@@ -9,7 +9,7 @@ import plotly.graph_objs as go
 
 
 from sklearn.utils import estimator_html_repr
-from streamlit_option_menu import option_menu
+#from streamlit_option_menu import option_menu
 
 import plotly.express as px  
 import numpy as np
