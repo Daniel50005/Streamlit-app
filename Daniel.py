@@ -24,7 +24,7 @@ st.set_page_config(layout="wide")
 st.title("Streamlit Application...")
 #st.markdown("""**Hello**  and **welcome** to my first streamlit application in MSBA325 course!""")
 st.write('<p style="font-size:130%"> Hello and welcome to my first streamlit application in MSBA325 course!</p>', unsafe_allow_html=True)
-df = pd.read_excel(r"C:\Users\BC\Documents\Daniel Streamlit\Assignment #2 - Daniel Raydan - ID 202371151\2- Bubble chart\sales.xlsx")
+df = pd.read_excel("sales.xlsx")
 # Load dataset
 if st.checkbox("Preview Dataset"):
         data =df
