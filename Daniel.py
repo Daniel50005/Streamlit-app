@@ -32,7 +32,7 @@ The second is: **Graduate Admission Prediction** to study the factors that incre
 
 The third is **Life Expectancy** to see the difference in age expectancy among countries.""")
 
-df = pd.read_excel(r"C:\Users\BC\Documents\Daniel Streamlit\Assignment #2 - Daniel Raydan - ID 202371151\2- Bubble chart\sales.xlsx")
+df = pd.read_excel("sales.xlsx")
 
 st.title("Sales Dataset")
 
@@ -132,7 +132,7 @@ st.sidebar.write("Done By: **Daniel** **Raydan**")
 st.sidebar.write("Email:dmr05@mail.aub.edu")
 
 
-df1 = pd.read_csv(r"C:\Users\BC\Downloads\Admission_Predict.csv")
+df1 = pd.read_csv("Admission_Predict.csv")
 
 st.title("Graduate Admission Dataset")
 
@@ -177,7 +177,7 @@ st.write('<p style="font-size:130%">This scatter plots shows the variation of ch
 
 
 st.title("Life Expectancy Dataset")
-df3=pd.read_csv(r"C:\Users\BC\Downloads\Life_expectancy_dataset.csv",encoding='latin-1')
+df3=pd.read_csv("Life_expectancy_dataset.csv",encoding='latin-1')
 
 if st.checkbox('Show Life Expectancy Data'):
     st.subheader('Life Expectancy Data')
