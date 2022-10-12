@@ -1,15 +1,16 @@
 # import package 
 
 
+from os import stat
 import streamlit as st
 
 import pandas as pd 
-#import plotly.offline as pyo
-#import plotly.graph_objs as go
+import plotly.offline as pyo
+import plotly.graph_objs as go
 
 
-#from sklearn.utils import estimator_html_repr
-#from streamlit_option_menu import option_menu
+from sklearn.utils import estimator_html_repr
+
 
 import plotly.express as px  
 import numpy as np
@@ -22,9 +23,19 @@ import chart_studio.plotly as py
 # setting page layout 
 st.set_page_config(layout="wide")
 st.title("Streamlit Application...")
-#st.markdown("""**Hello**  and **welcome** to my first streamlit application in MSBA325 course!""")
-st.write('<p style="font-size:130%"> Hello and welcome to my first streamlit application in MSBA325 course!</p>', unsafe_allow_html=True)
-df = pd.read_excel("sales.xlsx")
+
+st.markdown("""**Hello**  and **welcome** to my first streamlit application in MSBA325 course!
+
+In this application, I used three datasets.  The first is **Sales Data** to study sales by products, customers, and region.
+
+The second is: **Graduate Admission Prediction** to study the factors that increase the chance for graduate studies admission. 
+
+The third is **Life Expectancy** to see the difference in age expectancy among countries.""")
+
+df = pd.read_excel(r"C:\Users\BC\Documents\Daniel Streamlit\Assignment #2 - Daniel Raydan - ID 202371151\2- Bubble chart\sales.xlsx")
+
+st.title("Sales Dataset")
+
 # Load dataset
 if st.checkbox("Preview Dataset"):
         data =df
@@ -39,6 +50,7 @@ if st.checkbox("Preview Dataset"):
 if st.checkbox ("Show Column Name"):
         data=df
         st.write(data.columns)
+
 
 st.subheader("Profit vs Sales")
 
@@ -120,3 +132,89 @@ st.sidebar.write("Done By: **Daniel** **Raydan**")
 st.sidebar.write("Email:dmr05@mail.aub.edu")
 
 
+df1 = pd.read_csv(r"C:\Users\BC\Downloads\Admission_Predict.csv")
+
+st.title("Graduate Admission Dataset")
+
+# Load dataset
+if st.checkbox("View Dataset"):
+        data =df1
+        if st.button ("ALL Dataset"):
+            st.dataframe(data)
+        elif st.button("Head"):
+            st.write(data.head())
+        elif st.button("Tail"):
+            st.write(data.tail())
+
+# Show Column Name
+if st.checkbox ("Column Name"):
+        data=df1
+        st.write(data.columns)
+        
+
+st.subheader("Choose a Score")
+pages_names = ("CGPA","TOEFL Score", "GRE Score")
+page=st.radio('Navigation',pages_names)
+
+
+
+
+if page == "CGPA" :
+ st.subheader("Chance of Admit by CGPA ")
+ ax=px.scatter(df1,x="CGPA",y="Chance of Admit ", color="LOR ", size_max=10, hover_name="Serial No.")
+ st.plotly_chart(ax, use_container_width=True)
+if page =="TOEFL Score" :
+    st.subheader("Chance of Admit by TOEFL Score ")
+    ax=px.scatter(df1,x="TOEFL Score",y="Chance of Admit ", color="LOR ", size_max=10, hover_name="Serial No.")
+    st.plotly_chart(ax, use_container_width=True)
+if page ==  "GRE Score" :
+    st.subheader("Chance of Admit by GRE Score ")
+    ax=px.scatter(df1,x="GRE Score",y="Chance of Admit ", color="LOR ", size_max=10, hover_name="Serial No.")
+    st.plotly_chart(ax, use_container_width=True)
+
+st.write('<p style="font-size:130%">This scatter plots shows the variation of chance of admission according to the exams scores </p>', unsafe_allow_html=True)
+
+
+
+st.title("Life Expectancy Dataset")
+df3=pd.read_csv(r"C:\Users\BC\Downloads\Life_expectancy_dataset.csv",encoding='latin-1')
+
+if st.checkbox('Show Life Expectancy Data'):
+    st.subheader('Life Expectancy Data')
+    st.write(df3)
+
+df4=df3.groupby("Continent",as_index=False)[["Overall Life","Male Life", "Female Life"]].mean()
+
+
+st.subheader("Life Expectancy by Continent")
+
+select = st.selectbox('Select a Continent',df4['Continent'])
+
+#get the state selected in the selectbox
+state_data = df4[df4['Continent'] == select]
+
+
+
+def get_total_dataframe(dataset):
+    total_dataframe = pd.DataFrame({
+    'Status':['Overall Life', 'Male Life', 'Female Life'],
+    'Number of cases':(dataset.iloc[0]['Overall Life'],
+    dataset.iloc[0]['Male Life'], 
+    dataset.iloc[0]['Female Life'])})
+    return total_dataframe
+state_total = get_total_dataframe(state_data)
+
+#if st.checkbox("Show Analysis by Continent", True, key=2):
+st.markdown("## **Level analysis**" + " in %s " % (select))
+#st.markdown("### Overall Life, Male Life ,and Female Life " +
+   # " in %s " % (select))
+   # if not st.checkbox('Hide Graph', False, key=1):
+state_total_graph = px.bar(
+        state_total, 
+        x='Status',
+        y='Number of cases',
+        labels={'Number of cases':'Number of cases in %s' % (select)},
+        color='Status')
+st.plotly_chart(state_total_graph, use_container_width=True)
+
+st.write('<p style="font-size:130%">This bar graph shows the overall , male, and female life expectancy in each continent </p>', unsafe_allow_html=True)
